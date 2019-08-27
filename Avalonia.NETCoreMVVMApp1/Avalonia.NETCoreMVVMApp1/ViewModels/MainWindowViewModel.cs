@@ -80,9 +80,9 @@ namespace Avalonia.NETCoreMVVMApp1.ViewModels
         public MainWindowViewModel()
         {
             StartCommand = ReactiveCommand.CreateFromTask(Start);
-            _firstDot = new Dot {X = 200, Y = 200};
-            _secondDot = new Dot {X = 100, Y = 300};
-            _thirdDot = new Dot {X = 300, Y = 300};
+            _firstDot = new Dot {X = 250, Y = 50};
+            _secondDot = new Dot {X = 50, Y = 500};
+            _thirdDot = new Dot {X = 500, Y = 500};
             dots.Connect().ObserveOn(RxApp.MainThreadScheduler).Bind(out _collection).Subscribe();
         }
 
@@ -135,7 +135,7 @@ namespace Avalonia.NETCoreMVVMApp1.ViewModels
 
                     //SourceList<DotObject> dots = new SourceList<DotObject>();
                     dots.Add(new DotObject(commonDot));
-                    await Task.Delay(200);
+                    await Task.Delay(10);
                 }
             });
 
