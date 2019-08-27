@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <Button Content="Set Dots" Command="{Binding SetDots}" Margin="10" />
-            <Button Content="Start" Margin="10" Command="{Binding Start}" />
+            <Button Content="Start" Margin="10" Command="{Binding StartCommand}" />
             <Button Content="Stop" Margin="10" Command="{Binding Stop}" />
             <Button Content="Clear" Margin="10" Command="{Binding Clear}" />
             <TextBlock Text="Max Size X:" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace Avalonia.NETCoreMVVMApp1.ViewModels
         private Dot _secondDot = new Dot();
         private Dot _thirdDot = new Dot();
         private bool stat;
+
+        public ReactiveCommand<Unit, Unit> StartCommand { get; }
         public int StartDotX
         {
             get => (int) _startDot.X;
@@ -76,9 +79,10 @@ namespace Avalonia.NETCoreMVVMApp1.ViewModels
 
         public MainWindowViewModel()
         {
-            _firstDot= new Dot{X = 200,Y=200};
-            _secondDot= new Dot{X=100,Y=300};
-            _thirdDot = new Dot{X=300,Y=300};
+            StartCommand = ReactiveCommand.CreateFromTask(Start);
+            _firstDot = new Dot {X = 200, Y = 200};
+            _secondDot = new Dot {X = 100, Y = 300};
+            _thirdDot = new Dot {X = 300, Y = 300};
             dots.Connect().Bind(out _collection).Subscribe();
         }
 
@@ -102,43 +106,38 @@ namespace Avalonia.NETCoreMVVMApp1.ViewModels
         {
             stat = true;
             var commonDot = _startDot;
-            await Task.Run(async () =>
+
+            while (stat)
+            {
+                var rnd = new Random().Next(1, 4);
+                switch (rnd)
                 {
-                    while (stat)
+                    case 1:
                     {
-                        var rnd = new Random().Next(1, 4);
-                        switch (rnd)
-                        {
-                            case 1:
-                            {
-                                commonDot.X = (_firstDot.X + commonDot.X) / 2;
-                                commonDot.Y = (_firstDot.Y + commonDot.Y) / 2;
-                                break;
-                            }
-                            case 2:
-                            {
-                                commonDot.X = (_secondDot.X + commonDot.X) / 2;
-                                commonDot.Y = (_secondDot.Y + commonDot.Y) / 2;
-                                break;
-                            }
-                            case 3:
-                            {
-                                commonDot.X = (_thirdDot.X + commonDot.X) / 2;
-                                commonDot.Y = (_thirdDot.Y + commonDot.Y) / 2;
-                                break;
-                            }
-                        }
-                        //SourceList<DotObject> dots = new SourceList<DotObject>();
-                        await Dispatcher.UIThread.InvokeAsync(()=>dots.Add(new DotObject(commonDot)));
-                        await Task.Delay(200);
+                        commonDot.X = (_firstDot.X + commonDot.X) / 2;
+                        commonDot.Y = (_firstDot.Y + commonDot.Y) / 2;
+                        break;
                     }
-                   
-                   
-                    
+                    case 2:
+                    {
+                        commonDot.X = (_secondDot.X + commonDot.X) / 2;
+                        commonDot.Y = (_secondDot.Y + commonDot.Y) / 2;
+                        break;
+                    }
+                    case 3:
+                    {
+                        commonDot.X = (_thirdDot.X + commonDot.X) / 2;
+                        commonDot.Y = (_thirdDot.Y + commonDot.Y) / 2;
+                        break;
+                    }
                 }
-            );
+
+                //SourceList<DotObject> dots = new SourceList<DotObject>();
+                dots.Add(new DotObject(commonDot));
+                await Task.Delay(200);
+            }
         }
-        
+
 
         public void Stop()
         {
