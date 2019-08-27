@@ -7,13 +7,14 @@
         x:Class="Avalonia.NETCoreMVVMApp1.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Avalonia.NETCoreMVVMApp1">
+   
     <Window.Styles>
         <Style Selector="ItemsControl > ContentPresenter">
             <Setter Property="Canvas.Left" Value="{Binding X}" />
             <Setter Property="Canvas.Top" Value="{Binding Y}" />
         </Style>
     </Window.Styles>
-    
+   
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
@@ -26,7 +27,7 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <Button Content="Set Dots" Command="{Binding SetDots}" Margin="10" />
-            <Button Content="Start" Margin="10" />
+            <Button Content="Start" Margin="10" Name="Start"/>
             <Button Content="Stop" Margin="10" />
             <Button Content="Clear" Margin="10" />
         </StackPanel>
@@ -63,15 +64,15 @@
 
         </Grid>
 
-        <ItemsControl Grid.Row="2" Items="{Binding Collection}">
+        <ItemsControl Name="Control" Grid.Row="2" Items="{Binding Collection}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas />
+                    <Canvas/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.DataTemplates>
                 <DataTemplate>
-                    <Ellipse Height="5" Width="5" />
+                    <Ellipse Height="5" Width="5"  Fill="Red"/>
                 </DataTemplate>
             </ItemsControl.DataTemplates>
         </ItemsControl>
