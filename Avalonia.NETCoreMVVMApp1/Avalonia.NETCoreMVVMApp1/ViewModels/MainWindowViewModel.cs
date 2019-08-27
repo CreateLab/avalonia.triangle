@@ -8,6 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Avalonia.NETCoreMVVMApp1.Models;
+using Avalonia.Threading;
 using DynamicData;
 using ReactiveUI;
 using ReactiveUI.Legacy;
@@ -128,7 +129,7 @@ namespace Avalonia.NETCoreMVVMApp1.ViewModels
                             }
                         }
                         //SourceList<DotObject> dots = new SourceList<DotObject>();
-                        dots.Add(new DotObject(commonDot));
+                        await Dispatcher.UIThread.InvokeAsync(()=>dots.Add(new DotObject(commonDot)));
                         await Task.Delay(200);
                     }
                    

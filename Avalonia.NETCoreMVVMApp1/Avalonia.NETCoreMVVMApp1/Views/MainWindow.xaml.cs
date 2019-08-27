@@ -9,12 +9,10 @@ namespace Avalonia.NETCoreMVVMApp1.Views
         public MainWindow()
         {
             InitializeComponent();
-            var btn = this.FindControl<Button>("Start");
-            btn.Click += (sender, args) =>
-            {
-                var cntrl = this.FindControl<ItemsControl>("Control");
+           
+               
              
-            };
+           
         }
 
         private void InitializeComponent()
