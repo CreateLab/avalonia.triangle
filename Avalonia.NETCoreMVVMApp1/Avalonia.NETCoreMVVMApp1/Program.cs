@@ -1,8 +1,10 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Logging.Serilog;
 using Avalonia.NETCoreMVVMApp1.ViewModels;
 using Avalonia.NETCoreMVVMApp1.Views;
+using Avalonia.ReactiveUI;
 
 namespace Avalonia.NETCoreMVVMApp1
 {

@@ -83,7 +83,7 @@ namespace Avalonia.NETCoreMVVMApp1.ViewModels
             _firstDot = new Dot {X = 200, Y = 200};
             _secondDot = new Dot {X = 100, Y = 300};
             _thirdDot = new Dot {X = 300, Y = 300};
-            dots.Connect().Bind(out _collection).Subscribe();
+            dots.Connect().ObserveOn(RxApp.MainThreadScheduler).Bind(out _collection).Subscribe();
         }
 
         public void SetDots()
@@ -106,37 +106,42 @@ namespace Avalonia.NETCoreMVVMApp1.ViewModels
         {
             stat = true;
             var commonDot = _startDot;
-
-            while (stat)
+            await Task.Run(async () =>
             {
-                var rnd = new Random().Next(1, 4);
-                switch (rnd)
+                while (stat)
                 {
-                    case 1:
+                    var rnd = new Random().Next(1, 4);
+                    switch (rnd)
                     {
-                        commonDot.X = (_firstDot.X + commonDot.X) / 2;
-                        commonDot.Y = (_firstDot.Y + commonDot.Y) / 2;
-                        break;
+                        case 1:
+                        {
+                            commonDot.X = (_firstDot.X + commonDot.X) / 2;
+                            commonDot.Y = (_firstDot.Y + commonDot.Y) / 2;
+                            break;
+                        }
+                        case 2:
+                        {
+                            commonDot.X = (_secondDot.X + commonDot.X) / 2;
+                            commonDot.Y = (_secondDot.Y + commonDot.Y) / 2;
+                            break;
+                        }
+                        case 3:
+                        {
+                            commonDot.X = (_thirdDot.X + commonDot.X) / 2;
+                            commonDot.Y = (_thirdDot.Y + commonDot.Y) / 2;
+                            break;
+                        }
                     }
-                    case 2:
-                    {
-                        commonDot.X = (_secondDot.X + commonDot.X) / 2;
-                        commonDot.Y = (_secondDot.Y + commonDot.Y) / 2;
-                        break;
-                    }
-                    case 3:
-                    {
-                        commonDot.X = (_thirdDot.X + commonDot.X) / 2;
-                        commonDot.Y = (_thirdDot.Y + commonDot.Y) / 2;
-                        break;
-                    }
-                }
 
-                //SourceList<DotObject> dots = new SourceList<DotObject>();
-                dots.Add(new DotObject(commonDot));
-                await Task.Delay(200);
+                    //SourceList<DotObject> dots = new SourceList<DotObject>();
+                    dots.Add(new DotObject(commonDot));
+                    await Task.Delay(200);
+                }
+            });
+
+                
             }
-        }
+        
 
 
         public void Stop()
