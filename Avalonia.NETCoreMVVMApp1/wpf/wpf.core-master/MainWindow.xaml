@@ -1,0 +1,86 @@
+﻿<Window x:Class="wpf.triangle.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:wpf.triangle.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="800" d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel }">
+
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Button Content="Set Dots" Command="{Binding SetDotsCommand}" Margin="10" />
+            <Button Content="Start" Margin="10" Command="{Binding StartCommand}" />
+            <Button Content="Stop" Margin="10" Command="{Binding StopCommand}" />
+            <Button Content="Clear" Margin="10" Command="{Binding ClearCommand}" />
+            <TextBlock Text="Max Size X:" />
+            <TextBlock Text="{Binding  ElementName=DotsControl, Path=ActualWidth}" Margin="10 0" />
+            <TextBlock Text="Max Size Y:" />
+            <TextBlock Text="{Binding ElementName=DotsControl, Path=ActualHeight}" Margin="10 0" />
+            <TextBlock Text="Dots:" />
+            <TextBlock Text="{Binding Collection.Count}" Margin="10 0" />
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" MinWidth="20" />
+                <ColumnDefinition Width="Auto" MinWidth="20" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" MinWidth="20" />
+                <ColumnDefinition Width="Auto" MinWidth="20" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Start Dot" Margin="5" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="First Dot" Margin="5" />
+            <TextBlock Grid.Row="2" Grid.Column="3" Text="Second Dot" Margin="5" />
+            <TextBlock Grid.Row="0" Grid.Column="3" Text="Third Dot" Margin="5" />
+
+
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding StartDotX}" />
+            <TextBox Grid.Row="0" Grid.Column="2" Margin="5" Text="{Binding StartDotY}" />
+            <TextBox Grid.Row="2" Grid.Column="4" Margin="5" Text="{Binding SecondDotX}" />
+            <TextBox Grid.Row="2" Grid.Column="5" Margin="5" Text="{Binding SecondDotY}" />
+            <TextBox Grid.Row="0" Grid.Column="4" Margin="5" Text="{Binding ThirdDotX}" />
+            <TextBox Grid.Row="0" Grid.Column="5" Margin="5" Text="{Binding ThirdDotY }" />
+            <TextBox Grid.Row="2" Grid.Column="1" Margin="5" Text="{Binding FirstDotX}" />
+            <TextBox Grid.Row="2" Grid.Column="2" Margin="5" Text="{Binding FirstDotY}" />
+
+        </Grid>
+
+        <ItemsControl Name="DotsControl" Grid.Row="3" ItemsSource="{Binding Collection}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Ellipse Height="5" Width="5" Fill="Red" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Canvas.Left" Value="{Binding X}" />
+                    <Setter Property="Canvas.Top" Value="{Binding Y}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+    </Grid>
+
+</Window>
