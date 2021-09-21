@@ -17,8 +17,23 @@ namespace Avalonia.NETCoreMVVMApp1
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
+                .With(new Win32PlatformOptions
+                {
+                    UseDeferredRendering = false,
+                    EnableMultitouch = true
+                })
+                .With(
+                    new X11PlatformOptions
+                    {
+                        UseDeferredRendering = false
+                    }).With(
+                    new AvaloniaNativePlatformOptions
+                    {
+                        UseDeferredRendering = false
+                    })
+                .UseSkia()
                 .UsePlatformDetect()
-                .LogToDebug()
+                .LogToTrace()
                 .UseReactiveUI();
 
         // Your application's entry point. Here you can initialize your MVVM framework, DI
